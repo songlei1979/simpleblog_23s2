@@ -1,6 +1,7 @@
 from django.urls import path
 
-from blog.views import index, list_categories, detail_category, detail_post, create_category_form, create_category
+from blog.views import index, list_categories, detail_category, detail_post, create_category_form, create_category, \
+    create_post, create_post_form
 
 urlpatterns = [
     path("", index, name="home"),
@@ -12,6 +13,10 @@ urlpatterns = [
     path("category/create_form", create_category_form,
          name="create_category_form"),
     path("category/create", create_category,
-         name="create_category")
+         name="create_category"),
+    path("post/create", create_post,
+         name="create_post"),
+path("post/create_form", create_post_form,
+         name="create_post_form"),
 
 ]

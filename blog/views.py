@@ -54,5 +54,22 @@ def create_category_form(request):
                   'create_category_form.html', {})
 
 
+def create_post(request):
+    title = request.POST.get("post_title")
+    body = request.POST.get("post_body")
+    category_id = request.POST.get("category_id")
+    message = "new post "+title+" has been created"
+    try:
+        Post.objects.create(title=title, body=body, category_id=category_id)
+    except:
+        message = "some error there"
+    return render(request, 'create_post.html',
+                  {'message':message})
+
+def create_post_form(request):
+    return render(request,
+                  'create_post_form.html',
+                  {"categories":Category.objects.all()})
+
 
 

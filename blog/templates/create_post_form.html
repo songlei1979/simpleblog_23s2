@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+    Create Post
+{% endblock %}
+{% block content %}
+    <form method="POST"
+          action="{% url 'create_post' %}">
+    {% csrf_token %}
+        <br>
+            Title: <input type="text"
+                             name="post_title"
+                          placeholder="Post Title"></br>
+            Body: <textarea type="text"
+                            name="post_body"></textarea>
+        </br>
+        Category: <select name="category_id">
+        {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+            <button>Add</button>
+        </p>
+    </form>
+{% endblock %}
