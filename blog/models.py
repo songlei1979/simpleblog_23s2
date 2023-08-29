@@ -11,7 +11,7 @@ class Category(models.Model):
 class Post(models.Model):
     author = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     body = models.TextField()
-    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     likes = models.ManyToManyField(User, blank=True, null=True, related_name="post_likes")
     post_image = models.ImageField(blank=True, null=True)
     title = models.CharField(max_length=255)

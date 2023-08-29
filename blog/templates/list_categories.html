@@ -12,7 +12,14 @@ Categories
 {% for category in categories %}
     <li>
         <a href="{% url 'detail_category' id=category.id %}">
-            {{ category.name }}</a></li>
+            {{ category.name }}</a>
+        <a class="btn btn-primary" href="{% url 'update_category_form' id=category.id%}">
+            Update
+        </a>
+    <a class="btn btn-danger" href="{% url 'delete_category' id=category.id %}">
+            Delete
+        </a>
+    </li>
 {% endfor %}
 </ul>
 {% endblock %}

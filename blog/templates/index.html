@@ -7,6 +7,9 @@ Home
 {% block content %}
     <a href="{% url 'create_post_form' %}">Add New</a>
     {% for post in posts %}
-        <p><a href="{% url 'detail_post' id=post.id %}">{{ post }}</a> - {{ post.author }}</p>
+        <p>
+            <a href="{% url 'detail_post' id=post.id %}">{{ post }}</a>
+            - {{ post.author }}
+        </p>
     {% endfor %}
 {% endblock %}

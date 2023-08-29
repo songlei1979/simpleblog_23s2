@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+    Create Category
+{% endblock %}
+{% block content %}
+    <form method="POST"
+          action="{% url 'update_category' %}">
+    {% csrf_token %}
+        <p>
+            Category: <input type="text"
+                             name="category_name"
+        value="{{ category.name }}">
+
+            <input type="hidden" name="category_id"
+            value="{{ category.id }}">
+            <button>Update</button>
+        </p>
+    </form>
+{% endblock %}
