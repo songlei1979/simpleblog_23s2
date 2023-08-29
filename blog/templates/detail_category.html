@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ category.name }}
+{% endblock %}
+{% block content %}
+    <h1>{{ category.id }} - {{ category.name }}</h1>
+    <ul>
+    {% for post in category.post_set.all %}
+        <li><a href="{% url 'detail_post' id=post.id %}">{{ post.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

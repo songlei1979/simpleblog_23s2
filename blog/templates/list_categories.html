@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}
+Categories
+{% endblock %}
+{% block content %}
+    <a href="{% url 'create_category_form' %}"
+    class="btn btn-danger"
+    >
+        Create New
+    </a>
+<ul>
+{% for category in categories %}
+    <li>
+        <a href="{% url 'detail_category' id=category.id %}">
+            {{ category.name }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}
+Home
+{% endblock %}
+
+
+{% block content %}
+    {% for post in posts %}
+        <p><a href="{% url 'detail_post' id=post.id %}">{{ post }}</a> - {{ post.author }}</p>
+    {% endfor %}
+{% endblock %}

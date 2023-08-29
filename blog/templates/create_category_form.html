@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+    Create Category
+{% endblock %}
+{% block content %}
+    <form method="POST"
+          action="{% url 'create_category' %}">
+    {% csrf_token %}
+        <p>
+            Category: <input type="text"
+                             name="category_name"
+        placeholder="Category Name">
+            <button>Add</button>
+        </p>
+    </form>
+{% endblock %}
