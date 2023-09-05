@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse_lazy, reverse
+from django.views.generic import TemplateView, ListView, DetailView
 
 from blog.models import Post, Category
 
@@ -12,6 +13,24 @@ def index(request):
     content = {"posts": data}
     return render(request, "index.html", content)
 
+# class HomePageView(TemplateView):
+#     # template
+#     template_name = "home.html"
+#
+#     # return data
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['latest_posts'] = Post.objects.all()[0:5]
+#         return context
+
+class HomePageView(ListView):
+    template_name = "home.html"
+    model = Post
+
+
+class PostDetailView(DetailView):
+    template_name = "detail_post_view.html"
+    model = Post
 
 def list_categories(request):
     data = Category.objects.all()

@@ -1,14 +1,17 @@
 from django.urls import path
 
 from blog.views import index, list_categories, detail_category, detail_post, create_category_form, create_category, \
-    create_post, create_post_form, update_category, update_category_form, delete_category
+    create_post, create_post_form, update_category, update_category_form, delete_category, HomePageView, PostDetailView
 
 urlpatterns = [
-    path("", index, name="home"),
+    # path("", index, name="home"),
+    path("", HomePageView.as_view(), name="home"),
     path("categories", list_categories, name="categories"),
     path("category/<int:id>", detail_category,
          name="detail_category"),
-    path("post/<int:id>", detail_post,
+    # path("post/<int:id>", detail_post,
+    #      name="detail_post"),
+    path("post/<int:pk>", PostDetailView.as_view(),
          name="detail_post"),
     path("category/create_form", create_category_form,
          name="create_category_form"),
