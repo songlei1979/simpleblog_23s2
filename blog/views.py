@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from blog.forms import PostForm
 from blog.models import Post, Category
 
 
@@ -36,13 +37,13 @@ class PostDetailView(DetailView):
 class PostCreateView(CreateView):
     template_name = "create_post_view.html"
     model = Post
-    fields = ["title", "author", "category", "body"]
+    form_class = PostForm
 
 
 class PostUpdateView(UpdateView):
     template_name = "update_post_view.html"
     model = Post
-    fields = ["title", "author", "category", "body"]
+    form_class = PostForm
 
 
 class PostDeleteView(DeleteView):

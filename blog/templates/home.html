@@ -3,7 +3,9 @@
 Home Page
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated %}
     <a href="{% url 'create_post' %}">Add New</a>
+    {% endif %}
 {% for post in object_list %}
     <p>
         <a href="{% url 'detail_post' post.id %}">
