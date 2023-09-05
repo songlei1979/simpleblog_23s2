@@ -3,12 +3,18 @@
 Home Page
 {% endblock %}
 {% block content %}
+    <a href="{% url 'create_post' %}">Add New</a>
 {% for post in object_list %}
     <p>
         <a href="{% url 'detail_post' post.id %}">
             {{ post.title }}
         </a>
-
+        <a href="{% url 'update_post_view' post.id %}">
+           Update
+        </a>
+    <a href="{% url 'delete_post_view' post.id %}">
+           Delete
+        </a>
     </p>
 {% endfor %}
 {% endblock %}

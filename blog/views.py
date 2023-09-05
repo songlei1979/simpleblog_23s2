@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from blog.models import Post, Category
 
@@ -31,6 +31,24 @@ class HomePageView(ListView):
 class PostDetailView(DetailView):
     template_name = "detail_post_view.html"
     model = Post
+
+
+class PostCreateView(CreateView):
+    template_name = "create_post_view.html"
+    model = Post
+    fields = ["title", "author", "category", "body"]
+
+
+class PostUpdateView(UpdateView):
+    template_name = "update_post_view.html"
+    model = Post
+    fields = ["title", "author", "category", "body"]
+
+
+class PostDeleteView(DeleteView):
+    template_name = "delete_post_view.html"
+    model = Post
+    success_url = reverse_lazy("home")
 
 def list_categories(request):
     data = Category.objects.all()
