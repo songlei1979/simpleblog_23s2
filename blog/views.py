@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -6,7 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from blog.forms import PostForm
-from blog.models import Post, Category
+from blog.models import Post, Category, Profile
 
 
 def index(request):
@@ -152,3 +153,36 @@ def delete_category(request, id):
     except Category.DoesNotExist:
         message = "something wrong"
     return HttpResponseRedirect(reverse('categories'))
+
+
+def register_view(request):
+    # Django User
+    first_name = request.POST.get("first_name")
+    last_name = request.POST.get("last_name")
+    password = request.POST.get("password")
+    email = request.POST.get("email")
+    # Profile Model
+    address = request.POST.get("address")
+    phone_number = request.POST.get("phone_number")
+    web_page = request.POST.get("web_page")
+    message = "user has been created"
+    try:
+        user = User.objects.create(first_name=first_name,
+                                   last_name=last_name,
+                                   email=email)
+        user.set_password(password)
+        user.save()
+        try:
+            profile = Profile.objects.create(user=user, address=address
+                                             , phone_number=phone_number
+                                             , web_page=web_page)
+        except:
+            message = "Cannot create profile for this user"
+    except:
+        message = "Cannot create this user"
+
+    return render(request, 'register_user.html',
+                  {'message': message})
+
+
+

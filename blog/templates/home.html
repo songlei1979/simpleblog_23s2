@@ -1,22 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}
-Home Page
+    Home Page
 {% endblock %}
 {% block content %}
     {% if user.is_authenticated %}
-    <a href="{% url 'create_post' %}">Add New</a>
+        <a href="{% url 'create_post' %}">Add New</a>
     {% endif %}
-{% for post in object_list %}
-    <p>
-        <a href="{% url 'detail_post' post.id %}">
-            {{ post.title }}
-        </a>
-        <a href="{% url 'update_post_view' post.id %}">
-           Update
-        </a>
-    <a href="{% url 'delete_post_view' post.id %}">
-           Delete
-        </a>
-    </p>
-{% endfor %}
+    {% for post in object_list %}
+        <p>
+            <a href="{% url 'detail_post' post.id %}">
+                {{ post.title }}
+            </a>
+            - {{ post.author.first_name }} {{ post.author.last_name }}
+            {% if user.is_authenticated %}
+                {% if user == post.author or "editor" == user.groups.all.0.name %}
+                    <a href="{% url 'update_post_view' post.id %}">
+                        Update
+                    </a>
+                    <a href="{% url 'delete_post_view' post.id %}">
+                        Delete
+                    </a>
+                {% endif %}
+            {% endif %}
+        </p>
+    {% endfor %}
 {% endblock %}
