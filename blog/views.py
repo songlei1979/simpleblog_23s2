@@ -157,6 +157,7 @@ def delete_category(request, id):
 
 def register_view(request):
     # Django User
+    username = request.POST.get("username")
     first_name = request.POST.get("first_name")
     last_name = request.POST.get("last_name")
     password = request.POST.get("password")
@@ -167,7 +168,8 @@ def register_view(request):
     web_page = request.POST.get("web_page")
     message = "user has been created"
     try:
-        user = User.objects.create(first_name=first_name,
+        user = User.objects.create(username=username,
+                                    first_name=first_name,
                                    last_name=last_name,
                                    email=email)
         user.set_password(password)
@@ -184,5 +186,8 @@ def register_view(request):
     return render(request, 'register_user.html',
                   {'message': message})
 
+
+def register_form(request):
+    return render(request,'register_form.html')
 
 

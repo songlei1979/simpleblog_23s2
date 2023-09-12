@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    register form
+{% endblock %}
+
+{% block content %}
+    {#    I will create a form here  #}
+    {#    request.POST.get("first_name")#}
+    {#    request.POST.get("last_name")#}
+    {#    request.POST.get("password")#}
+    {#    request.POST.get("email")#}
+    {#    # Profile Model#}
+    {#    request.POST.get("address")#}
+    {#    request.POST.get("phone_number")#}
+    {#    request.POST.get("web_page")#}
+    {#    message#}
+    <form method="POST"
+          action="{% url 'register_view' %}">
+        {% csrf_token %}
+        <p>
+            Username: <input type="text"
+                               name="username"
+                               placeholder="Username"></p>
+        <p>
+        <p>
+            First Name: <input type="text"
+                               name="first_name"
+                               placeholder="First Name"></p>
+        <p>
+            Last Name: <input type="text"
+                              name="last_name"
+                              placeholder="Last Name"></p>
+        <p>
+            Email: <input type="email"
+                          name="email"
+                          placeholder="Email"></p>
+        <p>
+            Password: <input type="text"
+                             name="password"
+                             placeholder="Password"></p>
+        <p>
+            Address: <input type="text"
+                            name="address"
+                            placeholder="Address"></p>
+        <p>
+            Phone Number: <input type="text"
+                                 name="phone_number"
+                                 placeholder="Phone Number"></p>
+        <p>
+            Web Page: <input type="text"
+                             name="web_page"
+                             placeholder="http://...."></p>
+        <button>Add</button>
+
+    </form>
+{% endblock %}
