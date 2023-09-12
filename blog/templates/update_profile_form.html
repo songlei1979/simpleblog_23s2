@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Update Profile Form
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if user.profile %}
+            <form method="POST"
+                  action="{% url 'update_profile' %}">
+                {% csrf_token %}
+
+                <p>
+                    Address: <input type="text"
+                                    name="address"
+                                    value="{{ user.profile.address }}"></p>
+                <p>
+                    Phone Number: <input type="text"
+                                         name="phone_number"
+                                         value="{{ user.profile.phone_number }}"></p>
+                <p>
+                    Web Page: <input type="text"
+                                     name="web_page"
+                                     value="{{ user.profile.web_page }}"></p>
+                <button>Add</button>
+
+            </form>
+        {% endif %}
+    {% else %}
+        You don't have profile
+    {% endif %}
+{% endblock %}

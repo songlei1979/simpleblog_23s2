@@ -191,3 +191,28 @@ def register_form(request):
     return render(request,'register_form.html')
 
 
+def update_profile_view(request):
+    # Profile Model
+    address = request.POST.get("address")
+    phone_number = request.POST.get("phone_number")
+    web_page = request.POST.get("web_page")
+    # you will know who login to your webpage from request
+    user = request.user
+    message = "Profile has been updated"
+    try:
+        profile = Profile.objects.get(user=user)
+        profile.address = address
+        profile.phone_number = phone_number
+        profile.web_page = web_page
+        profile.save()
+    except Profile.DoesNotExist:
+        message = "You need to create a profile"
+    return render(request, 'update_profile.html',
+                  {'message': message})
+
+
+def update_profile_form(request):
+    user = request.user
+    profile = user.profile.address
+    print(profile)
+    return render(request,'update_profile_form.html')
