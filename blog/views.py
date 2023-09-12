@@ -216,3 +216,8 @@ def update_profile_form(request):
     profile = user.profile.address
     print(profile)
     return render(request,'update_profile_form.html')
+
+
+class ProfileDetailView(DetailView):
+    template_name = "user_profile_detail.html"
+    model = Profile

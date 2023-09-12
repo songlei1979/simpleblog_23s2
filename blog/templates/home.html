@@ -11,7 +11,13 @@
             <a href="{% url 'detail_post' post.id %}">
                 {{ post.title }}
             </a>
-            - {{ post.author.first_name }} {{ post.author.last_name }}
+        - {{ post.author.first_name }} {{ post.author.last_name }}
+        {% if post.author.profile %}
+        <a href="{% url 'detail_profile' post.author.profile.id %}">
+            profile
+           </a>
+        {% endif %}
+
             {% if user.is_authenticated %}
                 {% if user == post.author or "editor" == user.groups.all.0.name %}
                     <a href="{% url 'update_post_view' post.id %}">
