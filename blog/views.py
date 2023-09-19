@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -278,3 +279,17 @@ def read_excel(request):
             'upload_file_url': updated_file_url
         })
     return render(request, 'file_upload.html')
+
+
+def send_email(request):
+    subject = request.POST.get("subject")
+    email_body = request.POST.get("email_body")
+    email_to = request.POST.get("email_to")
+
+    try:
+        send_mail(subject=subject, message=email_body
+              , from_email="youremail@email.com"
+              , recipient_list=[email_to,])
+        return render(request, template_name="send_email.html")
+    except:
+        return render(request, template_name="send_email.html")
