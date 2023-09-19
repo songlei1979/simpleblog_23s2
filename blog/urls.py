@@ -3,7 +3,7 @@ from django.urls import path
 from blog.views import index, list_categories, detail_category, detail_post, create_category_form, create_category, \
     create_post, create_post_form, update_category, update_category_form, delete_category, HomePageView, PostDetailView, \
     PostCreateView, PostUpdateView, PostDeleteView, register_view, register_form, update_profile_view, \
-    update_profile_form, ProfileDetailView
+    update_profile_form, ProfileDetailView, likes, read_excel
 
 urlpatterns = [
     # path("", index, name="home"),
@@ -45,4 +45,6 @@ urlpatterns = [
          name="update_profile_form"),
     path("user/profile/<int:pk>", ProfileDetailView.as_view(),
          name="detail_profile"),
+    path("post/likes", likes, name="likes"),
+    path("upload_files", read_excel, name="upload_files"),
 ]

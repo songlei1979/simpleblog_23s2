@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-{{ post.title }}
+    {{ post.title }}
 {% endblock %}
 {% block content %}
     <h1>{{ post.title }}</h1>
@@ -14,4 +14,15 @@
             <p>{{ comment.user.first_name }} {{ comment.user.last_name }}</p>
         {% endfor %}
     </div>
+    <h3>Likes:{{ post.likes.count }}</h3>
+    <form action="{% url 'likes' %}" method="post">
+    {% csrf_token %}
+    <input name="post_id" value="{{ post.id }}" type="hidden">
+        {% if user in post.likes.all %}
+            <button>Unlike</button>
+        {% else %}
+            <button>Like</button>
+        {% endif %}
+    </form>
+
 {% endblock %}

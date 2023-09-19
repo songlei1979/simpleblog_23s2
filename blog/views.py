@@ -8,12 +8,14 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 
 from blog.forms import PostForm
 from blog.models import Post, Category, Profile
-
+from django.core.files.storage import FileSystemStorage
+import pandas as pd
 
 def index(request):
     data = Post.objects.all()
     content = {"posts": data}
     return render(request, "index.html", content)
+
 
 # class HomePageView(TemplateView):
 #     # template
@@ -51,6 +53,7 @@ class PostDeleteView(DeleteView):
     template_name = "delete_post_view.html"
     model = Post
     success_url = reverse_lazy("home")
+
 
 def list_categories(request):
     data = Category.objects.all()
@@ -144,7 +147,7 @@ def update_category_form(request, id):
 
 def delete_category(request, id):
     message = ""
-    print("id:"+str(id))
+    print("id:" + str(id))
     try:
         print("get")
         category = Category.objects.get(id=id)
@@ -169,7 +172,7 @@ def register_view(request):
     message = "user has been created"
     try:
         user = User.objects.create(username=username,
-                                    first_name=first_name,
+                                   first_name=first_name,
                                    last_name=last_name,
                                    email=email)
         user.set_password(password)
@@ -188,7 +191,7 @@ def register_view(request):
 
 
 def register_form(request):
-    return render(request,'register_form.html')
+    return render(request, 'register_form.html')
 
 
 def update_profile_view(request):
@@ -215,9 +218,63 @@ def update_profile_form(request):
     user = request.user
     profile = user.profile.address
     print(profile)
-    return render(request,'update_profile_form.html')
+    return render(request, 'update_profile_form.html')
 
 
 class ProfileDetailView(DetailView):
     template_name = "user_profile_detail.html"
     model = Profile
+
+
+def likes(request):
+    user = request.user
+    post_id = request.POST.get("post_id")
+    post = Post.objects.get(id=post_id)
+    if user in post.likes.all():
+        post.likes.remove(user)
+    else:
+        post.likes.add(user)
+    return HttpResponseRedirect(reverse('detail_post', kwargs={'pk': post.id}))
+
+def read_excel(request):
+    if request.method == "POST" and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        file = fs.save(myfile.name, myfile)
+        updated_file_url = fs.url(file)
+        ##########I will read my file here
+        data = pd.read_excel(myfile)
+        data = pd.DataFrame(data, columns=[
+            "Username", "DOB", "Firstname", "ID", "Lastname", "email", "Address", "Phone", "Website"
+        ])
+        usernames = data["Username"].tolist()
+        dobs = data["DOB"].tolist() # for password
+        firstnames = data["Firstname"].tolist()
+        ids = data["ID"].tolist()
+        lastnames = data["Lastname"].tolist()
+        emails = data["email"].tolist()
+        address = data["Address"].tolist()
+        phones = data["Phone"].tolist()
+        websites = data["Website"].tolist()
+        i = 0
+        while i < len(usernames):
+            print(i)
+            print(dobs[i])
+            pw = str(dobs[i]).split(" ")[0].replace("-", "")
+            print(pw)
+            user = User.objects.create(username=usernames[i],
+                                       first_name=firstnames[i],
+                                       last_name=lastnames[i],
+                                       email=emails[i])
+            user.set_password(pw)
+            user.save()
+            profile = Profile.objects.create(address=address[i],
+                                             phone_number=phones[i],
+                                             web_page=websites[i],
+                                             user=user)
+            i += 1
+        ###########
+        return render(request, 'file_upload.html', {
+            'upload_file_url': updated_file_url
+        })
+    return render(request, 'file_upload.html')
